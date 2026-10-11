@@ -326,6 +326,7 @@ def test_bridge_sync_offline_persists_retry_and_avoids_llm(tmp_path,monkeypatch)
 
 
 @pytest.mark.parametrize('width,height,font', [(1280,900,14),(1040,680,20)])
+@pytest.mark.desktop
 def test_constructor_native_preview_and_controls(tmp_path,width,height,font):
     from test_qml import visual_child
     app=QApplication.instance() or QApplication([]); app.setQuitOnLastWindowClosed(False)

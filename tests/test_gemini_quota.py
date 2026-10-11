@@ -9,6 +9,17 @@ from google.genai.errors import ClientError
 from golyah.gemini_quota import GeminiQuotaError, _daily_delay, quota_error
 
 
+def test_quota_message_works_with_non_russian_time_locale():
+    import locale
+    previous = locale.setlocale(locale.LC_TIME)
+    try:
+        locale.setlocale(locale.LC_TIME, 'C')
+        message = str(GeminiQuotaError('gemini-test', 'daily', 100000))
+        assert 'Дневной лимит' in message and ' в ' in message
+    finally:
+        locale.setlocale(locale.LC_TIME, previous)
+
+
 def quota_response(daily=True, delay="10313.28855s"):
     metric = "generate_content_free_tier_requests_per_day" if daily else "generate_content_requests_per_minute"
     return {"error": {"code": 429, "status": "RESOURCE_EXHAUSTED",

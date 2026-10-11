@@ -22,20 +22,35 @@ FORBIDDEN_DIRS = {'.env', '.local', 'personal', 'exports', 'screenshots', 'test-
 RULES = {
     'Google API key': rb'AIza[0-9A-Za-z_-]{35}',
     'GitHub token': rb'(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{35,})',
-    'LLM API token': rb'sk-(?:proj-|ant-)?[A-Za-z0-9_-]{24,}',
+    'LLM API token': rb'(?<![A-Za-z0-9_])sk-(?:proj-|ant-)?[A-Za-z0-9_-]{24,}',
     'AWS access key': rb'(?:AKIA|ASIA)[A-Z0-9]{16}',
-    'private key': rb'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----',
+    'private key': rb'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----\r?\n[A-Za-z0-9+/=\r\n]{64,}',
     'absolute user profile path': rb'[A-Za-z]:[\\/]+Users[\\/]+(?!Public[\\/]|Default[\\/])[^\\/\s"\x00]+[\\/]',
-    'authenticated URL': rb'https?://[^\s/:@]+:[^\s/@]+@',
+    'authenticated URL': rb'https?://[A-Za-z0-9_.~%+!-]{1,128}:[A-Za-z0-9_.~%+!=-]{1,128}@[A-Za-z0-9]',
 }
 PATTERNS = {name: re.compile(pattern, re.I if name in ('absolute user profile path',) else 0)
             for name, pattern in RULES.items()}
 
 
 def inspect_bytes(data: bytes) -> set[str]:
-    # Check UTF-16 strings too, as used by Windows resources.
-    return {name for name, pattern in PATTERNS.items()
-            if pattern.search(data) or (b'\x00' in data and pattern.search(data.replace(b'\x00', b'')))}
+    # Decode only actual UTF-16 strings. Removing every NUL would concatenate
+    # unrelated DLL string-table entries and manufacture false credential matches.
+    strings = [data]
+    if b'\x00' in data:
+        strings.extend(match.group()[::2] for match in re.finditer(rb'(?:[\x09\x0a\x0d\x20-\x7e]\x00){8,}', data))
+    findings = set()
+    for name, pattern in PATTERNS.items():
+        for value in strings:
+            for match in pattern.finditer(value):
+                if name == 'authenticated URL':
+                    credentials = match.group().split(b'://', 1)[1].split(b'@', 1)[0]
+                    if credentials in {b'user:pass', b'user:password', b'username:password'}:
+                        continue  # Documented proxy placeholders, not usable accounts.
+                findings.add(name)
+                break
+            if name in findings:
+                break
+    return findings
 
 
 def forbidden_name(path: Path, *, binary: bool = False) -> bool:
@@ -47,7 +62,9 @@ def forbidden_name(path: Path, *, binary: bool = False) -> bool:
         return True
     if suffix in {'.sqlite', '.sqlite3', '.db', '.log', '.bak', '.pfx', '.p12', '.apkg', '.colpkg', '.lnk'}:
         return True
-    if re.search(r'\.(?:sqlite3?|db)-', name) or name.startswith(('credentials', 'secrets')):
+    if re.search(r'\.(?:sqlite3?|db)-', name):
+        return True
+    if name.startswith(('credentials', 'secrets')) and suffix in {'.json', '.yml', '.yaml', '.toml', '.ini'}:
         return True
     return binary and name == 'direct_url.json'
 

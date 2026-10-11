@@ -412,6 +412,7 @@ def test_qml_word_selection_and_popup_save_preview(tmp_path, monkeypatch):
 
 
 @pytest.mark.parametrize('scale',[1,1.5,2])
+@pytest.mark.desktop
 def test_hover_is_unique_between_wrapped_rows_after_plain_click(tmp_path,scale):
     app=QApplication.instance() or QApplication([])
     app.setQuitOnLastWindowClosed(False)

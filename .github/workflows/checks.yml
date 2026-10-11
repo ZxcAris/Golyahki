@@ -34,5 +34,5 @@ jobs:
           cache-dependency-path: pyproject.toml
       - run: python -m pip install -e . pytest
       - name: Unit and QML tests
-        # OS-level mouse/hotkey tests require an interactive Windows desktop.
-        run: python -m pytest -q --ignore=tests/test_mouse_guard.py --ignore=tests/test_hotkeys.py
+        # Native input, foreground hover and WebView2 tests run on a real desktop.
+        run: python -m pytest -q -m "not desktop" --ignore=tests/test_mouse_guard.py --ignore=tests/test_hotkeys.py

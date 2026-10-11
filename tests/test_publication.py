@@ -32,3 +32,17 @@ def test_rejects_exports_and_credentials_by_type(tmp_path):
 def test_demo_dictionary_passes_audit(tmp_path):
     (tmp_path / 'dictionary.json').write_text(json.dumps({'kind': 'golyah-dictionary', 'entries': []}))
     assert audit(tmp_path) == (1, [])
+
+
+def test_dll_string_tables_and_keyring_modules_are_not_private_files():
+    # Do not join unrelated strings across their NUL terminators.
+    assert not inspect_bytes(b'harddisk-icon\x00' + b'a' * 40)
+    assert not inspect_bytes(b'AK' + b'IA\x00' + b'A' * 16)
+    assert not forbidden_name(Path('_internal/keyring/credentials.py'), binary=True)
+    assert not forbidden_name(Path('_internal/keyring/backends/SecretService.py'), binary=True)
+
+
+def test_private_key_requires_payload_not_just_parser_marker():
+    marker = b'-----BEGIN ' + b'PRIVATE KEY-----'
+    assert not inspect_bytes(marker)
+    assert 'private key' in inspect_bytes(marker + b'\n' + b'A' * 80)

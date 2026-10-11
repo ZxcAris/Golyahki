@@ -18,7 +18,10 @@ class GeminiQuotaError(ValueError):
         model = self.model.removeprefix("models/")
         if not re.fullmatch(r"[a-zA-Z0-9._-]{1,100}", model):
             model = "выбранной модели"
-        when = datetime.fromtimestamp(self.retry_at).astimezone().strftime("%d.%m в %H:%M")
+        local = datetime.fromtimestamp(self.retry_at).astimezone()
+        # Windows strftime encodes its format using LC_TIME. Keep Russian text
+        # outside that API so quota messages work on non-Russian Windows too.
+        when = f"{local.day:02d}.{local.month:02d} в {local.hour:02d}:{local.minute:02d}"
         if self.kind == "daily":
             count = f" (лимит: {self.limit})" if self.limit else ""
             reason = f"Дневной лимит {model} исчерпан{count}."
