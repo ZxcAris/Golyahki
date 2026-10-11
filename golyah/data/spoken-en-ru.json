@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "golyah-dictionary",
+  "name": "GOlyah · Spoken English",
+  "revision": "1",
+  "attribution": "English meaning and pronunciation checked against Wiktionary. Definitions, Russian glosses and examples written for GOlyah.",
+  "entries": [
+    {
+      "word": "nah",
+      "lemma": "nah",
+      "pos": "interj",
+      "tags": ["Informal"],
+      "ipa": "/nɑː/",
+      "definition_en": "A casual way to say no, disagree, or turn down an offer.",
+      "synonyms": ["no", "naw"],
+      "sources": ["https://en.wiktionary.org/wiki/nah#English"],
+      "senses": [
+        {
+          "translation": "неа; нет",
+          "examples": [
+            {"en": "Would you like some tea? — Nah, thanks.", "ru": "Хочешь чаю? — Неа, спасибо."},
+            {"en": "Nah, it was nothing.", "ru": "Да нет, пустяки."}
+          ]
+        }
+      ]
+    }
+  ]
+}

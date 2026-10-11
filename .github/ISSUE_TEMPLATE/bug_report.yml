@@ -1,0 +1,26 @@
+name: Ошибка / Bug report
+description: Помогите воспроизвести проблему без личных данных.
+title: '[Bug] '
+body:
+  - type: markdown
+    attributes:
+      value: 'Не добавляйте API-ключи, базы, личные слова и скриншоты с приватными данными.'
+  - type: input
+    id: versions
+    attributes:
+      label: Версии Golyahki и Windows
+      placeholder: Golyahki 1.0.0, Windows 11 x64
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Шаги воспроизведения
+      description: Используйте тестовый текст и укажите, что ожидали и что произошло.
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Сообщение об ошибке
+      description: Уберите ключи, личные пути и приватный текст.

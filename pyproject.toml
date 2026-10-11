@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=77,<81", "wheel>=0.43,<1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "golyah"
+version = "1.0.0"
+description = "Golyahki: screen vocabulary, Gemini explanations, and Anki for Windows"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "PySide6>=6.8,<7", "google-genai>=1.0,<3", "keyring>=25,<27",
+  "httpx>=0.27,<1", "pydantic>=2.8,<3", "platformdirs>=4,<5",
+  "numpy>=1.26,<3", "dxcam==0.3.0; sys_platform == 'win32'",
+  "Pillow>=11,<13", "ijson>=3.3,<4", "jsonschema>=4.23,<5",
+  "winrt-runtime>=3.2,<4; sys_platform == 'win32'",
+  "winrt-Windows.Foundation>=3.2,<4; sys_platform == 'win32'",
+  "winrt-Windows.Foundation.Collections>=3.2,<4; sys_platform == 'win32'",
+  "winrt-Windows.Globalization>=3.2,<4; sys_platform == 'win32'",
+  "winrt-Windows.Graphics.Imaging>=3.2,<4; sys_platform == 'win32'",
+  "winrt-Windows.Media.Ocr>=3.2,<4; sys_platform == 'win32'",
+  "winrt-Windows.Storage.Streams>=3.2,<4; sys_platform == 'win32'"
+]
+
+[project.urls]
+Homepage = "https://github.com/MrSamurai4/Golyahki"
+Issues = "https://github.com/MrSamurai4/Golyahki/issues"
+
+[project.optional-dependencies]
+ocr = ["paddleocr==3.7.0", "paddlepaddle==3.2.2"]
+dev = ["pytest>=8,<10", "pyinstaller>=6.11,<7"]
+
+[project.scripts]
+golyah = "golyah.app:main"
+golyahki = "golyah.app:main"
+
+[tool.setuptools.package-data]
+golyah = ["qml/*.qml", "qml/*.svg", "qml/qmldir", "schemas/*.json", "data/*.json"]
+
+[tool.setuptools.packages.find]
+include = ["golyah*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

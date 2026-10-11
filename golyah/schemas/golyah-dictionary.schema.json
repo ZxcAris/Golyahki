@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "golyah-dictionary",
+  "type": "object",
+  "$defs": {
+    "Example": {
+      "properties": {
+        "en": {
+          "title": "En",
+          "type": "string"
+        },
+        "ru": {
+          "default": "",
+          "title": "Ru",
+          "type": "string"
+        }
+      },
+      "required": [
+        "en"
+      ],
+      "title": "Example",
+      "type": "object"
+    },
+    "Sense": {
+      "properties": {
+        "translation": {
+          "title": "Translation",
+          "type": "string"
+        },
+        "definition_en": {
+          "default": "",
+          "title": "Definition En",
+          "type": "string"
+        },
+        "examples": {
+          "items": {
+            "$ref": "#/$defs/Example"
+          },
+          "title": "Examples",
+          "type": "array"
+        }
+      },
+      "required": [
+        "translation"
+      ],
+      "title": "Sense",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "kind": {
+      "const": "golyah-dictionary"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "word": {
+            "title": "Word",
+            "type": "string"
+          },
+          "lemma": {
+            "default": "",
+            "title": "Lemma",
+            "type": "string"
+          },
+          "pos": {
+            "default": "",
+            "title": "Pos",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          },
+          "definition_en": {
+            "default": "",
+            "title": "Definition En",
+            "type": "string"
+          },
+          "senses": {
+            "items": {
+              "$ref": "#/$defs/Sense"
+            },
+            "title": "Senses",
+            "type": "array"
+          },
+          "synonyms": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Synonyms",
+            "type": "array"
+          },
+          "etymology": {
+            "default": "",
+            "title": "Etymology",
+            "type": "string"
+          },
+          "extra": {
+            "default": "",
+            "title": "Extra",
+            "type": "string"
+          },
+          "sources": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "ipa": {
+            "default": "",
+            "title": "Ipa",
+            "type": "string"
+          },
+          "dictionary": {
+            "default": "",
+            "title": "Dictionary",
+            "type": "string"
+          },
+          "forms": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Forms",
+            "type": "array"
+          },
+          "raw": {
+            "default": null,
+            "title": "Raw"
+          }
+        },
+        "required": [
+          "word"
+        ],
+        "title": "Entry",
+        "type": "object"
+      }
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string"
+    },
+    "attribution": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "kind",
+    "entries",
+    "name"
+  ]
+}

@@ -1,0 +1,505 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "golyah-study",
+  "type": "object",
+  "$defs": {
+    "AudioClip": {
+      "properties": {
+        "filename": {
+          "pattern": "^golyahki_[a-f0-9]{64}\\.(wav|ogg|mp3)$",
+          "title": "Filename",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "windows",
+            "wiktionary"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "voice": {
+          "default": "",
+          "title": "Voice",
+          "type": "string"
+        },
+        "rate": {
+          "default": 0,
+          "title": "Rate",
+          "type": "integer"
+        },
+        "credit": {
+          "default": "",
+          "title": "Credit",
+          "type": "string"
+        },
+        "url": {
+          "default": "",
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "filename",
+        "text",
+        "source"
+      ],
+      "title": "AudioClip",
+      "type": "object"
+    },
+    "ContextTranslation": {
+      "properties": {
+        "translation_ru": {
+          "minLength": 1,
+          "title": "Translation Ru",
+          "type": "string"
+        },
+        "explanation_ru": {
+          "minLength": 1,
+          "title": "Explanation Ru",
+          "type": "string"
+        }
+      },
+      "required": [
+        "translation_ru",
+        "explanation_ru"
+      ],
+      "title": "ContextTranslation",
+      "type": "object"
+    },
+    "Entry": {
+      "properties": {
+        "word": {
+          "title": "Word",
+          "type": "string"
+        },
+        "lemma": {
+          "default": "",
+          "title": "Lemma",
+          "type": "string"
+        },
+        "pos": {
+          "default": "",
+          "title": "Pos",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "definition_en": {
+          "default": "",
+          "title": "Definition En",
+          "type": "string"
+        },
+        "senses": {
+          "items": {
+            "$ref": "#/$defs/Sense"
+          },
+          "title": "Senses",
+          "type": "array"
+        },
+        "synonyms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Synonyms",
+          "type": "array"
+        },
+        "etymology": {
+          "default": "",
+          "title": "Etymology",
+          "type": "string"
+        },
+        "extra": {
+          "default": "",
+          "title": "Extra",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "ipa": {
+          "default": "",
+          "title": "Ipa",
+          "type": "string"
+        },
+        "dictionary": {
+          "default": "",
+          "title": "Dictionary",
+          "type": "string"
+        },
+        "forms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Forms",
+          "type": "array"
+        },
+        "raw": {
+          "default": null,
+          "title": "Raw"
+        }
+      },
+      "required": [
+        "word"
+      ],
+      "title": "Entry",
+      "type": "object"
+    },
+    "Example": {
+      "properties": {
+        "en": {
+          "title": "En",
+          "type": "string"
+        },
+        "ru": {
+          "default": "",
+          "title": "Ru",
+          "type": "string"
+        }
+      },
+      "required": [
+        "en"
+      ],
+      "title": "Example",
+      "type": "object"
+    },
+    "Explanation": {
+      "properties": {
+        "definition_en": {
+          "minLength": 1,
+          "title": "Definition En",
+          "type": "string"
+        },
+        "usage_en": {
+          "minLength": 1,
+          "title": "Usage En",
+          "type": "string"
+        },
+        "translation_ru": {
+          "minLength": 1,
+          "title": "Translation Ru",
+          "type": "string"
+        },
+        "synonyms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Synonyms",
+          "type": "array"
+        },
+        "examples": {
+          "items": {
+            "$ref": "#/$defs/Example"
+          },
+          "title": "Examples",
+          "type": "array"
+        },
+        "senses": {
+          "items": {
+            "$ref": "#/$defs/Sense"
+          },
+          "title": "Senses",
+          "type": "array"
+        }
+      },
+      "required": [
+        "definition_en",
+        "usage_en",
+        "translation_ru"
+      ],
+      "title": "Explanation",
+      "type": "object"
+    },
+    "Sense": {
+      "properties": {
+        "translation": {
+          "title": "Translation",
+          "type": "string"
+        },
+        "definition_en": {
+          "default": "",
+          "title": "Definition En",
+          "type": "string"
+        },
+        "examples": {
+          "items": {
+            "$ref": "#/$defs/Example"
+          },
+          "title": "Examples",
+          "type": "array"
+        }
+      },
+      "required": [
+        "translation"
+      ],
+      "title": "Sense",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "kind": {
+      "const": "golyah-study"
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "term": {
+            "title": "Term",
+            "type": "string"
+          },
+          "lemma": {
+            "default": "",
+            "title": "Lemma",
+            "type": "string"
+          },
+          "sentence": {
+            "default": "",
+            "title": "Sentence",
+            "type": "string"
+          },
+          "selected_positions": {
+            "items": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "title": "Selected Positions",
+            "type": "array"
+          },
+          "selection_preview": {
+            "default": "",
+            "title": "Selection Preview",
+            "type": "string"
+          },
+          "entries": {
+            "items": {
+              "$ref": "#/$defs/Entry"
+            },
+            "title": "Entries",
+            "type": "array"
+          },
+          "sense_index": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Sense Index",
+            "type": "integer"
+          },
+          "entry_index": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Entry Index",
+            "type": "integer"
+          },
+          "translation": {
+            "default": "",
+            "title": "Translation",
+            "type": "string"
+          },
+          "definition_en": {
+            "default": "",
+            "title": "Definition En",
+            "type": "string"
+          },
+          "usage_en": {
+            "default": "",
+            "title": "Usage En",
+            "type": "string"
+          },
+          "sentence_translation": {
+            "default": "",
+            "title": "Sentence Translation",
+            "type": "string"
+          },
+          "context_explanation": {
+            "default": "",
+            "title": "Context Explanation",
+            "type": "string"
+          },
+          "examples": {
+            "items": {
+              "$ref": "#/$defs/Example"
+            },
+            "title": "Examples",
+            "type": "array"
+          },
+          "synonyms": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Synonyms",
+            "type": "array"
+          },
+          "sources": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "explain": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Explanation"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "context": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ContextTranslation"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "llm_model": {
+            "default": "",
+            "title": "Llm Model",
+            "type": "string"
+          },
+          "status": {
+            "default": "draft",
+            "enum": [
+              "draft",
+              "preview",
+              "saved",
+              "pending_anki"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "destination": {
+            "default": "dictionary",
+            "enum": [
+              "dictionary",
+              "anki"
+            ],
+            "title": "Destination",
+            "type": "string"
+          },
+          "error": {
+            "default": "",
+            "title": "Error",
+            "type": "string"
+          },
+          "anki_note_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Anki Note Id"
+          },
+          "learning_modes": {
+            "items": {
+              "enum": [
+                "forward",
+                "reverse",
+                "gap"
+              ],
+              "type": "string"
+            },
+            "title": "Learning Modes",
+            "type": "array"
+          },
+          "anki_note_ids": {
+            "additionalProperties": {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            "propertyNames": {
+              "enum": [
+                "forward",
+                "reverse",
+                "gap"
+              ]
+            },
+            "title": "Anki Note Ids",
+            "type": "object"
+          },
+          "anki_paused_cards": {
+            "items": {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            "title": "Anki Paused Cards",
+            "type": "array"
+          },
+          "anki_modes_pending": {
+            "default": false,
+            "title": "Anki Modes Pending",
+            "type": "boolean"
+          },
+          "word_audio": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AudioClip"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "sentence_audio": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AudioClip"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "term"
+        ],
+        "title": "StudyRecord",
+        "type": "object"
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "kind",
+    "records"
+  ]
+}

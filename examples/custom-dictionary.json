@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "golyah-dictionary",
+  "name": "My English dictionary",
+  "revision": "1",
+  "attribution": "My own definitions and examples",
+  "entries": [
+    {
+      "word": "experience",
+      "lemma": "experience",
+      "pos": "v",
+      "tags": ["Figurative"],
+      "definition_en": "To undergo or encounter a situation or event.",
+      "forms": ["experienced", "experiences", "experiencing"],
+      "senses": [
+        {
+          "translation": "испытывать; переживать",
+          "examples": [{"en": "You may experience a delay.", "ru": "Возможна задержка."}]
+        }
+      ],
+      "synonyms": ["undergo", "encounter"],
+      "sources": ["My own dictionary"]
+    }
+  ]
+}

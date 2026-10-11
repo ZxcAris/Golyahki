@@ -1,0 +1,10 @@
+name: Предложение / Feature request
+description: Расскажите, какую задачу должно решать улучшение.
+title: '[Idea] '
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Задача и предлагаемое поведение
+    validations:
+      required: true
