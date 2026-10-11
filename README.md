@@ -13,6 +13,8 @@
 
 <p align="center"><a href="README.en.md">English</a> · <a href="docs/USER_GUIDE.md">Руководство</a> · <a href="docs/PRIVACY.md">Данные и приватность</a> · <a href="https://github.com/MrSamurai4/Golyahki/issues">Сообщить об ошибке</a></p>
 
+<p align="center"><a href="https://github.com/MrSamurai4/Golyahki/actions/workflows/checks.yml"><img alt="Автоматические проверки" src="https://github.com/MrSamurai4/Golyahki/actions/workflows/checks.yml/badge.svg"></a></p>
+
 ![Окно Golyahki с демонстрационной словарной статьёй](docs/images/main.png)
 
 ## Что умеет Golyahki
@@ -69,6 +71,7 @@ Anki и Gemini необязательны для локального поиск
 - [Формат своего словаря](docs/DICTIONARY_FORMAT.md)
 - [История изменений](CHANGELOG.md)
 - [Запуск из исходников и сборка](docs/SETUP.md)
+- [Проверки публичного выпуска](docs/VERIFICATION.md)
 - [Как предложить улучшение](CONTRIBUTING.md)
 
 ## Разработка
